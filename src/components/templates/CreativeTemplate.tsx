@@ -10,6 +10,44 @@ const CreativeTemplate = ({ resume, settings }: Props) => {
   const { personalInfo, experience, education, skills, projects } = resume;
   const primaryColor = colorMap[settings.colorTheme];
 
+  const displaySkills = () => {
+    if (skills.length > 0) {
+      return (
+        <section className="mt-8">
+          <h2 className="text-sm font-bold uppercase tracking-wider border-b border-white/30 pb-2 mb-3">Skills</h2>
+          <div className="space-y-2">
+            {skills.map(skill => (
+              <div key={skill.id} className="flex items-center justify-between text-sm">
+                <span>{skill.name}</span>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <div key={i} className={`w-2 h-2 rounded-full ${i <= (skill.level === 'expert' ? 5 : skill.level === 'advanced' ? 4 : skill.level === 'intermediate' ? 3 : 2) ? 'bg-white' : 'bg-white/30'}`} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+  }
+
+  const displayEducation = () => {
+    if (education.length > 0) {
+      return (
+        <section className="mt-8">
+          <h2 className="text-sm font-bold uppercase tracking-wider border-b border-white/30 pb-2 mb-3">Education</h2>
+          {education.map(edu => (
+            <div key={edu.id} className="mb-3 text-sm">
+              <p className="font-medium">{edu.degree}</p>
+              <p className="text-white/70 text-xs">{edu.institution}</p>
+            </div>
+          ))}
+        </section>
+      );
+    }
+  }
+
   return (
     <div className="resume-template" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="grid grid-cols-3 min-h-[800px]">
@@ -26,35 +64,9 @@ const CreativeTemplate = ({ resume, settings }: Props) => {
           <h1 className="text-2xl font-bold text-center">{personalInfo.fullName || 'Your Name'}</h1>
           <p className="text-white/70 text-center text-sm mt-1">{personalInfo.email}</p>
 
-          {skills.length > 0 && (
-            <section className="mt-8">
-              <h2 className="text-sm font-bold uppercase tracking-wider border-b border-white/30 pb-2 mb-3">Skills</h2>
-              <div className="space-y-2">
-                {skills.map(skill => (
-                  <div key={skill.id} className="flex items-center justify-between text-sm">
-                    <span>{skill.name}</span>
-                    <div className="flex gap-0.5">
-                      {[1,2,3,4,5].map(i => (
-                        <div key={i} className={`w-2 h-2 rounded-full ${i <= (skill.level === 'expert' ? 5 : skill.level === 'advanced' ? 4 : skill.level === 'intermediate' ? 3 : 2) ? 'bg-white' : 'bg-white/30'}`} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+          {displaySkills()}
 
-          {education.length > 0 && (
-            <section className="mt-8">
-              <h2 className="text-sm font-bold uppercase tracking-wider border-b border-white/30 pb-2 mb-3">Education</h2>
-              {education.map(edu => (
-                <div key={edu.id} className="mb-3 text-sm">
-                  <p className="font-medium">{edu.degree}</p>
-                  <p className="text-white/70 text-xs">{edu.institution}</p>
-                </div>
-              ))}
-            </section>
-          )}
+          {displayEducation()}
         </div>
 
         {/* Main Content */}
@@ -101,4 +113,4 @@ const CreativeTemplate = ({ resume, settings }: Props) => {
   );
 };
 
-export default CreativeTemplate;
+export default CreativeTemplate
